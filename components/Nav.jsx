@@ -8,7 +8,7 @@ import {signIn, signOut, useSession, getProviders} from 'next-auth/react';
 const Nav = () => {
   const isUserLoggedIn = true;
   const [providers, setProviders] = useState(null);
-
+  const [toggleDropdown, setToggleDropdown] = useState(false);
   useEffect(()=>{
     const setProviders = async() => {
       const response = await getProviders();
@@ -17,7 +17,7 @@ const Nav = () => {
     setProviders();
   },[])
   return (
-    <nav className="flex justify-between w-full mb-16 pt-3">
+    <nav className="flex justify-between w-full mb-16 pt-3 px-5">
       <Link href="/" className="flex gap-2 flex-center">
         <Image src="/assets/images/logo-text.svg"
         alt="Promptopia Logo"
@@ -26,7 +26,7 @@ const Nav = () => {
         className="object-contain"
         /> 
       </Link>
-
+      {/*Desktop Navigation*/ }
       <div>
         {isUserLoggedIn ? (
           <div className="sm:flex hidden gap-3 md:gap-5">
@@ -61,6 +61,47 @@ const Nav = () => {
                 
           </div>
         )}
+      </div>
+
+      {/**Mobile Navigation */}
+      <div className="sm:hidden flex relative">
+        {isUserLoggedIn ? (
+          <div className="flex">
+            <Image
+              src="/assets/images/logo.svg"
+              alt="Profile"
+              width={37}
+              height={37}
+              className="rounded-full"
+              onClick={() => setToggleDropdown(!toggleDropdown)}
+              />
+              {toggleDropdown && (
+                <div className="dropdown">
+                  <Link 
+                    href="/profile"
+                    className="dropdown_link"
+                    onClick={() => setToggleDropdown(false)}>
+                    My Profile
+                  </Link>
+                </div>
+              )}
+          </div>
+        ) : (
+          <div>
+              {providers &&
+                Object.values(providers).map((provider) => (
+                  <button type="button"
+                    key={provider.name}
+                    onClick={() => signIn(provider.Id)}
+                    className="black_btn"
+                    >
+                      Sign In
+                  </button>
+              ))}
+                
+          </div>
+        )}
+
       </div>
     </nav>
   )
