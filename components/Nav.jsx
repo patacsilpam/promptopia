@@ -66,7 +66,7 @@ const Nav = () => {
       {/**Mobile Navigation */}
       <div className="sm:hidden flex relative">
         {isUserLoggedIn ? (
-          <div className="flex">
+          <div className="flex bg-slate-50">
             <Image
               src="/assets/images/logo.svg"
               alt="Profile"
@@ -83,6 +83,13 @@ const Nav = () => {
                     onClick={() => setToggleDropdown(false)}>
                     My Profile
                   </Link>
+                  <Link 
+                    href="/create-prompt"
+                    className="dropdown_link"
+                    onClick={() => setToggleDropdown(false)}>
+                    Create Prompt
+                  </Link>
+                  <button className="black_btn">Sign out</button>
                 </div>
               )}
           </div>
